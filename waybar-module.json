@@ -1,0 +1,9 @@
+{
+  "custom/steam-tracker": {
+    "exec": "jq -c '{text: (.summary // \"no data\"), tooltip: (.details // \"No data yet\")}' ~/.config/steam-tracker/cache.json 2>/dev/null || echo '{\"text\":\"no data\",\"tooltip\":\"No data yet\"}'",
+    "return-type": "json",
+    "interval": 300,
+    "format": "🎮 {}",
+    "on-click": "bash ~/.config/steam-tracker/steam-tracker-manage.sh"
+  }
+}

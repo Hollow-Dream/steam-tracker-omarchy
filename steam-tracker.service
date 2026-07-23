@@ -1,0 +1,11 @@
+[Unit]
+Description=Steam Sale Tracker (one-shot price check)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 %h/.config/steam-tracker/tracker.py
+# Keep this light: no retries hammering the API, short timeout is
+# already handled inside the script itself.
+TimeoutStartSec=60
