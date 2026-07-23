@@ -1,5 +1,4 @@
-# Steam Sale Tracker — Omarchy Edition
-
+# Steam Sale Tracker — For Omarchy/Waybar
 (This readme was written by both me and Claude because I did not want to write all the little details but all the steps are correct, if not then I will fix it soon)
 
 
