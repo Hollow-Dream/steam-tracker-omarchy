@@ -1,11 +1,31 @@
-# Steam Sale Tracker — For Omarchy/Waybar
-(This readme was written by both me and Claude because I did not want to write all the little details but all the steps are correct, if not then I will fix it soon)
-
+# Steam Sale Tracker — Omarchy Edition
 
 A memory-light Steam wishlist price tracker built for Omarchy (Arch +
 Hyprland + Waybar). No background daemon: a systemd user timer runs a
 one-shot script every 30 minutes, writes a tiny JSON cache, and Waybar
 just reads that file. Nothing sits in RAM between checks.
+
+## Screenshots
+
+**The Waybar widget in action** — a 🎮 icon shows how many watched games are currently on sale:
+
+![Waybar bar with the Steam Tracker widget](screenshots/waybar-bar.png)
+
+**Hovering shows exactly what's discounted:**
+
+![Tooltip showing a discounted game](screenshots/sale-notification.png)
+
+**Clicking the widget opens a quick action menu:**
+
+![Add / Remove / View list menu](screenshots/menu-actions.png)
+
+**Adding a game — search Steam by name, no app_id required:**
+
+![Searching Steam by name](screenshots/search-picker.png)
+
+**Viewing your current watchlist:**
+
+![Current watchlist](screenshots/watchlist-view.png)
 
 ## How it works
 
@@ -24,13 +44,15 @@ systemd timer (every 30 min)
 
 ## Managing games without touching JSON
 
-Clicking the Waybar icon (left-click) opens a small `wofi` search box:
+Clicking the Waybar icon opens a small `rofi` menu with three options:
 - **Add game** — type a name, pick from Steam's search results, it's
   added instantly (no need to know the app_id yourself anymore)
 - **Remove game** — pick from your current watchlist to drop it
-- **View list** — shows what's currently tracked
+- **View list** — see everything currently tracked in a scrollable menu
 
-Right-click shows the latest price-drop details as a notification.
+Hovering over the widget shows a tooltip listing everything on your
+watchlist that's currently discounted, so you don't have to click in
+to check.
 
 This is powered by `steam_search.py` (searches Steam by name) and
 `manage_watchlist.py` (adds/removes entries in `watchlist.json`).
@@ -43,17 +65,17 @@ python3 ~/.config/steam-tracker/manage_watchlist.py remove 292030
 python3 ~/.config/steam-tracker/manage_watchlist.py list
 ```
 
-> Uses `wofi` by default. If your Omarchy setup uses a different
-> launcher (rofi, fuzzel, walker), swap the `wofi --dmenu` calls in
+> Uses `rofi` in dmenu mode by default. If you use `wofi`, `walker`,
+> or another launcher instead, swap the `rofi -dmenu` calls in
 > `steam-tracker-manage.sh` for your launcher's dmenu-equivalent mode.
 
 ## Setup
 
 1. **Install dependencies** (jq is used by the Waybar module, Python 3
-   is standard on Omarchy already, wofi powers the click-to-manage
+   is standard on Omarchy already, rofi powers the click-to-manage
    popup):
    ```bash
-   sudo pacman -S jq wofi
+   sudo pacman -S jq rofi
    ```
 
 2. **Create the config directory and copy files in:**
@@ -96,10 +118,11 @@ python3 ~/.config/steam-tracker/manage_watchlist.py list
    ```
 
 7. **Add the Waybar module** — merge the contents of
-   `waybar-module.json` into your `~/.config/waybar/config`, then add
-   `"custom/steam-tracker"` to one of your `modules-left/center/right`
-   arrays. Reload Waybar (`hyprctl dispatch exec waybar` or your
-   usual reload keybind).
+   `waybar-module.json` into your Waybar config (e.g.
+   `~/.config/waybar/config.jsonc`, or wherever your active theme's
+   config lives), then add `"custom/steam-tracker"` to one of your
+   `modules-left/center/right` arrays. Reload Waybar
+   (`killall waybar && waybar &`, or your usual reload keybind).
 
 ## Why this stays lightweight
 
@@ -111,6 +134,9 @@ python3 ~/.config/steam-tracker/manage_watchlist.py list
   small JSON file every 5 minutes is essentially free.
 - **Atomic writes** (`os.replace`) mean Waybar never reads a
   half-written cache file mid-update.
+- **Cache stays in sync with the watchlist.** Removing a game prunes
+  its cached data immediately, so it can't linger and falsely show up
+  as "on sale" after you've stopped tracking it.
 
 ## Tweaking the interval
 
