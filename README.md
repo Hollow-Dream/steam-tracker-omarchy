@@ -9,23 +9,23 @@ just reads that file. Nothing sits in RAM between checks.
 
 **The Waybar widget in action** — a 🎮 icon shows how many watched games are currently on sale:
 
-![Waybar bar with the Steam Tracker widget](screenshots/waybar-bar.png)
+![Waybar bar with the Steam Tracker widget](Images/waybar-bar.png)
 
 **Hovering shows exactly what's discounted:**
 
-![Tooltip showing a discounted game](screenshots/sale-notification.png)
+![Tooltip showing a discounted game](Images/sale-notification.png)
 
 **Clicking the widget opens a quick action menu:**
 
-![Add / Remove / View list menu](screenshots/menu-actions.png)
+![Add / Remove / View list menu](Images/menu-actions.png)
 
 **Adding a game — search Steam by name, no app_id required:**
 
-![Searching Steam by name](screenshots/search-picker.png)
+![Searching Steam by name](Images/search-picker.png)
 
 **Viewing your current watchlist:**
 
-![Current watchlist](screenshots/watchlist-view.png)
+![Current watchlist](Images/watchlist-view.png)
 
 ## How it works
 
